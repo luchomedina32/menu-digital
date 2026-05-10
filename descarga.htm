@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menú Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --warm-brown: #6b4226;
+    --dark-brown: #3e2009;
+    --gold: #c9973a;
+    --light-gold: #e8c97a;
+    --rust: #a0522d;
+    --text: #2c1a0e;
+    --muted: #8a7060;
+    --white: #fffef9;
+    --shadow: rgba(62,32,9,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ========== PUBLIC VIEW ========== */
+  #public-view { display: block; }
+
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 380px;
+    background: var(--dark-brown);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+
+  #hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.45;
+    display: none;
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    color: var(--light-gold);
+    letter-spacing: 2px;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.5);
+  }
+
+  .hero p.slogan {
+    font-size: 1.05rem;
+    color: #e8d8c0;
+    margin-top: 10px;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+
+  .hero .phone-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    background: rgba(201,151,58,0.25);
+    border: 1px solid var(--gold);
+    color: var(--light-gold);
+    padding: 8px 20px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: background 0.2s;
+  }
+  .hero .phone-link:hover { background: rgba(201,151,58,0.45); }
+
+  .ornament {
+    text-align: center;
+    padding: 28px 0 8px;
+    font-size: 1.3rem;
+    color: var(--gold);
+    letter-spacing: 8px;
+  }
+
+  .category-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 20px 24px;
+  }
+
+  .cat-btn {
+    padding: 7px 20px;
+    border-radius: 30px;
+    border: 1.5px solid var(--warm-brown);
+    background: transparent;
+    color: var(--warm-brown);
+    font-family: 'Lato', sans-serif;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .cat-btn.active, .cat-btn:hover {
+    background: var(--warm-brown);
+    color: var(--cream);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 0 24px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .dish-card {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px var(--shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .dish-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px var(--shadow); }
+
+  .dish-card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    display: block;
+    background: #e8ddd0;
+  }
+
+  .dish-no-img {
+    width: 100%;
+    height: 190px;
+    background: linear-gradient(135deg, #e8ddd0, #d4c4b0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+  }
+
+  .dish-info { padding: 16px 18px 20px; }
+
+  .dish-info .cat-tag {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--rust);
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  .dish-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--dark-brown);
+    margin-bottom: 5px;
+  }
+
+  .dish-info p.desc {
+    font-size: 0.87rem;
+    color: var(--muted);
+    line-height: 1.55;
+    margin-bottom: 10px;
+  }
+
+  .dish-info .price {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--warm-brown);
+  }
+
+  .footer-pub {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--dark-brown);
+    color: #c9b090;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+
+  /* Admin btn float */
+  .admin-float {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--dark-brown);
+    color: var(--light-gold);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 22px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+    z-index: 999;
+    letter-spacing: 0.5px;
+    transition: background 0.2s;
+  }
+  .admin-float:hover { background: var(--warm-brown); }
+
+  /* ========== LOGIN ========== */
+  #login-view {
+    display: none;
+    min-height: 100vh;
+    background: var(--dark-brown);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px 20px;
+  }
+
+  #login-view h2 {
+    font-family: 'Playfair Display', serif;
+    color: var(--light-gold);
+    font-size: 1.8rem;
+  }
+
+  .login-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,151,58,0.3);
+    border-radius: 14px;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .login-box input {
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(201,151,58,0.4);
+    background: rgba(255,255,255,0.08);
+    color: var(--cream);
+    font-size: 1rem;
+    outline: none;
+  }
+
+  .login-box button {
+    padding: 12px;
+    background: var(--gold);
+    border: none;
+    border-radius: 8px;
+    color: var(--dark-brown);
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .login-box button:hover { background: var(--light-gold); }
+
+  #login-error { color: #ff8080; font-size: 0.85rem; text-align: center; display: none; }
+
+  /* ========== ADMIN VIEW ========== */
+  #admin-view {
+    display: none;
+    min-height: 100vh;
+    background: #2a1505;
+  }
+
+  .admin-header {
+    background: var(--dark-brown);
+    border-bottom: 2px solid var(--gold);
+    padding: 18px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .admin-header h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--light-gold);
+    font-size: 1.4rem;
+  }
+
+  .admin-nav { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .atab {
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: 1.5px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 0.88rem;
+    transition: all 0.2s;
+  }
+  .atab.active, .atab:hover { background: var(--gold); color: var(--dark-brown); font-weight: 700; }
+
+  .btn-logout {
+    padding: 8px 16px;
+    background: transparent;
+    border: 1.5px solid #ff7070;
+    border-radius: 6px;
+    color: #ff9090;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+  .btn-logout:hover { background: #ff5555; color: white; border-color: #ff5555; }
+
+  .admin-content { padding: 30px 28px; max-width: 900px; margin: 0 auto; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .panel-title {
+    font-family: 'Playfair Display', serif;
+    color: var(--light-gold);
+    font-size: 1.4rem;
+    margin-bottom: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(201,151,58,0.3);
+  }
+
+  /* Forms */
+  .form-group { margin-bottom: 16px; }
+
+  .form-group label {
+    display: block;
+    color: #c9b090;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 11px 14px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(201,151,58,0.3);
+    border-radius: 8px;
+    color: var(--cream);
+    font-size: 0.95rem;
+    font-family: 'Lato', sans-serif;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--gold);
+  }
+  .form-group select option { background: #2a1505; }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+
+  .btn-primary {
+    padding: 11px 26px;
+    background: var(--gold);
+    border: none;
+    border-radius: 8px;
+    color: var(--dark-brown);
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-primary:hover { background: var(--light-gold); }
+
+  .btn-danger {
+    padding: 6px 14px;
+    background: transparent;
+    border: 1.5px solid #e05050;
+    border-radius: 6px;
+    color: #e07070;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: all 0.2s;
+  }
+  .btn-danger:hover { background: #c03030; color: white; border-color: #c03030; }
+
+  .btn-edit {
+    padding: 6px 14px;
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    border-radius: 6px;
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: all 0.2s;
+    margin-right: 6px;
+  }
+  .btn-edit:hover { background: var(--gold); color: var(--dark-brown); }
+
+  /* Dish list admin */
+  .dish-list-admin { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+
+  .dish-row {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,151,58,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .dish-row img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    background: #3e2009;
+    flex-shrink: 0;
+  }
+
+  .dish-row .dish-meta { flex: 1; min-width: 160px; }
+  .dish-row .dish-meta h4 { color: var(--cream); font-size: 1rem; }
+  .dish-row .dish-meta span { color: var(--muted); font-size: 0.82rem; }
+
+  .dish-row .dish-price { color: var(--gold); font-weight: 700; font-size: 1rem; white-space: nowrap; }
+
+  .dish-row .dish-actions { display: flex; gap: 8px; align-items: center; }
+
+  /* Config panel */
+  .config-section {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,151,58,0.2);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 20px;
+  }
+  .config-section h3 { color: var(--gold); font-size: 1rem; margin-bottom: 16px; letter-spacing: 1px; text-transform: uppercase; font-family: 'Lato', sans-serif; }
+
+  /* Image upload area */
+  .img-upload-area {
+    border: 2px dashed rgba(201,151,58,0.4);
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 0.9rem;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+  .img-upload-area:hover { border-color: var(--gold); }
+  .img-upload-area input[type=file] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .img-preview { max-width: 100%; max-height: 150px; border-radius: 8px; margin-top: 10px; display: none; }
+
+  .success-msg { color: #6fcf97; font-size: 0.85rem; margin-top: 8px; display: none; }
+
+  /* Modal edit */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal-box {
+    background: #2a1505;
+    border: 1px solid var(--gold);
+    border-radius: 14px;
+    padding: 28px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-box h3 { font-family: 'Playfair Display', serif; color: var(--light-gold); margin-bottom: 20px; font-size: 1.2rem; }
+  .modal-actions { display: flex; gap: 12px; margin-top: 20px; }
+
+  .btn-cancel {
+    padding: 10px 22px;
+    background: transparent;
+    border: 1.5px solid rgba(201,151,58,0.4);
+    border-radius: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 40px;
+    font-style: italic;
+  }
+
+  @media (max-width: 600px) {
+    .menu-grid { grid-template-columns: 1fr; padding: 0 16px 50px; }
+    .admin-content { padding: 20px 16px; }
+    .admin-header { padding: 14px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== PUBLIC VIEW ===== -->
+<div id="public-view">
+  <div class="hero">
+    <img id="hero-img" src="" alt="Portada">
+    <div class="hero-content">
+      <h1 id="pub-name">Mi Restaurante</h1>
+      <p class="slogan" id="pub-slogan">El sabor que te enamora</p>
+      <a href="#" class="phone-link" id="pub-phone-link" style="display:none">
+        📞 <span id="pub-phone"></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="ornament">✦ ✦ ✦</div>
+
+  <div class="category-nav" id="pub-cat-nav"></div>
+
+  <div class="menu-grid" id="pub-menu-grid">
+    <div class="empty-state" style="grid-column:1/-1">Cargando menú...</div>
+  </div>
+
+  <div class="footer-pub" id="pub-footer">
+    <span id="pub-name-footer">Mi Restaurante</span> · Menú Digital
+  </div>
+
+  <button class="admin-float" onclick="showLogin()">⚙ Admin</button>
+</div>
+
+<!-- ===== LOGIN ===== -->
+<div id="login-view">
+  <h2>Panel de Administración</h2>
+  <div class="login-box">
+    <input type="password" id="login-input" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doLogin()">
+    <button onclick="doLogin()">Ingresar</button>
+    <div id="login-error">Contraseña incorrecta.</div>
+    <button class="btn-cancel" onclick="backToPublic()" style="margin-top:4px">← Volver al menú</button>
+  </div>
+</div>
+
+<!-- ===== ADMIN VIEW ===== -->
+<div id="admin-view">
+  <div class="admin-header">
+    <h1>🍽 Panel Admin</h1>
+    <div class="admin-nav">
+      <button class="atab active" onclick="switchTab('platos', this)">Platos</button>
+      <button class="atab" onclick="switchTab('config', this)">Configuración</button>
+      <button class="atab" onclick="switchTab('agregar', this)">+ Agregar Plato</button>
+    </div>
+    <button class="btn-logout" onclick="logout()">Salir</button>
+  </div>
+
+  <div class="admin-content">
+
+    <!-- PLATOS -->
+    <div class="panel active" id="panel-platos">
+      <div class="panel-title">Platos del menú</div>
+      <div class="dish-list-admin" id="admin-dish-list">
+        <div class="empty-state">No hay platos todavía.</div>
+      </div>
+    </div>
+
+    <!-- AGREGAR -->
+    <div class="panel" id="panel-agregar">
+      <div class="panel-title">Agregar nuevo plato</div>
+      <div class="form-group">
+        <label>Nombre del plato *</label>
+        <input type="text" id="new-name" placeholder="Ej: Milanesa a la napolitana">
+      </div>
+      <div class="form-group">
+        <label>Categoría</label>
+        <select id="new-cat">
+          <option value="">Sin categoría</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Precio</label>
+        <input type="text" id="new-price" placeholder="Ej: $2500">
+      </div>
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea id="new-desc" placeholder="Descripción breve del plato..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Imagen</label>
+        <div class="img-upload-area" id="new-img-area">
+          <input type="file" accept="image/*" id="new-img-file" onchange="previewImage('new-img-file','new-img-preview')">
+          📷 Hacé clic para subir una foto
+          <br><small style="color:#7a6a5a;margin-top:6px;display:block">JPG, PNG, WEBP — máx 4MB</small>
+          <img class="img-preview" id="new-img-preview">
+        </div>
+      </div>
+      <button class="btn-primary" onclick="addDish()">Guardar plato</button>
+      <div class="success-msg" id="add-success">✓ Plato guardado correctamente.</div>
+    </div>
+
+    <!-- CONFIG -->
+    <div class="panel" id="panel-config">
+      <div class="panel-title">Configuración del restaurante</div>
+
+      <div class="config-section">
+        <h3>Información básica</h3>
+        <div class="form-group">
+          <label>Nombre del restaurante</label>
+          <input type="text" id="cfg-name" placeholder="Mi Restaurante">
+        </div>
+        <div class="form-group">
+          <label>Eslogan</label>
+          <input type="text" id="cfg-slogan" placeholder="El sabor que te enamora">
+        </div>
+        <div class="form-group">
+          <label>Número de teléfono (opcional)</label>
+          <input type="text" id="cfg-phone" placeholder="Ej: +54 9 223 000-0000">
+        </div>
+        <button class="btn-primary" onclick="saveConfig()">Guardar cambios</button>
+        <div class="success-msg" id="cfg-success">✓ Guardado.</div>
+      </div>
+
+      <div class="config-section">
+        <h3>Imagen de portada</h3>
+        <div class="img-upload-area">
+          <input type="file" accept="image/*" id="cover-file" onchange="saveCover()">
+          🖼 Subir imagen de portada
+          <img class="img-preview" id="cover-preview">
+        </div>
+        <button class="btn-danger" onclick="removeCover()" style="margin-top:12px">Quitar portada</button>
+        <div class="success-msg" id="cover-success">✓ Portada actualizada.</div>
+      </div>
+
+      <div class="config-section">
+        <h3>Categorías</h3>
+        <div style="display:flex;gap:10px;margin-bottom:14px">
+          <input type="text" id="new-cat-input" placeholder="Nueva categoría..." style="flex:1;padding:10px 14px;background:rgba(255,255,255,0.07);border:1px solid rgba(201,151,58,0.3);border-radius:8px;color:var(--cream);font-size:0.9rem;outline:none">
+          <button class="btn-primary" onclick="addCategory()">Agregar</button>
+        </div>
+        <div id="cat-list" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL EDIT -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal-box">
+    <h3>Editar plato</h3>
+    <input type="hidden" id="edit-id">
+    <div class="form-group">
+      <label>Nombre *</label>
+      <input type="text" id="edit-name">
+    </div>
+    <div class="form-group">
+      <label>Categoría</label>
+      <select id="edit-cat"></select>
+    </div>
+    <div class="form-group">
+      <label>Precio</label>
+      <input type="text" id="edit-price">
+    </div>
+    <div class="form-group">
+      <label>Descripción</label>
+      <textarea id="edit-desc"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Cambiar imagen (opcional)</label>
+      <div class="img-upload-area">
+        <input type="file" accept="image/*" id="edit-img-file" onchange="previewImage('edit-img-file','edit-img-preview')">
+        📷 Subir nueva imagen
+        <img class="img-preview" id="edit-img-preview">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveEdit()">Guardar cambios</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PASSWORD = 'alufe2026';
+
+function getData(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
+}
+function setData(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+// State
+let dishes = getData('dishes', []);
+let config = getData('config', { name: 'Mi Restaurante', slogan: 'El sabor que te enamora', phone: '', cover: '' });
+let categories = getData('categories', ['Entradas', 'Principales', 'Postres', 'Bebidas']);
+let activeFilter = 'Todos';
+
+// ===== PUBLIC =====
+function renderPublic() {
+  document.getElementById('pub-name').textContent = config.name;
+  document.getElementById('pub-name-footer').textContent = config.name;
+  document.getElementById('pub-slogan').textContent = config.slogan;
+  const heroImg = document.getElementById('hero-img');
+  if (config.cover) { heroImg.src = config.cover; heroImg.style.display = 'block'; }
+  else { heroImg.style.display = 'none'; }
+  const phoneLink = document.getElementById('pub-phone-link');
+  if (config.phone) {
+    document.getElementById('pub-phone').textContent = config.phone;
+    phoneLink.href = 'tel:' + config.phone.replace(/\s/g,'');
+    phoneLink.style.display = 'inline-flex';
+  } else { phoneLink.style.display = 'none'; }
+  renderCatNav();
+  renderDishes();
+}
+
+function renderCatNav() {
+  const nav = document.getElementById('pub-cat-nav');
+  const cats = ['Todos', ...categories];
+  nav.innerHTML = cats.map(c =>
+    `<button class="cat-btn ${c===activeFilter?'active':''}" onclick="filterCat('${c}')">${c}</button>`
+  ).join('');
+}
+
+function filterCat(cat) { activeFilter = cat; renderCatNav(); renderDishes(); }
+
+function renderDishes() {
+  const grid = document.getElementById('pub-menu-grid');
+  let filtered = activeFilter === 'Todos' ? dishes : dishes.filter(d => d.category === activeFilter);
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1">No hay platos en esta categoría.</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(d => `
+    <div class="dish-card">
+      ${d.image
+        ? `<img src="${d.image}" alt="${d.name}" loading="lazy">`
+        : `<div class="dish-no-img">🍽</div>`}
+      <div class="dish-info">
+        <div class="cat-tag">${d.category || ''}</div>
+        <h3>${d.name}</h3>
+        ${d.description ? `<p class="desc">${d.description}</p>` : ''}
+        ${d.price ? `<div class="price">${d.price}</div>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== AUTH =====
+function showLogin() {
+  document.getElementById('public-view').style.display = 'none';
+  document.getElementById('login-view').style.display = 'flex';
+  document.getElementById('login-input').value = '';
+  document.getElementById('login-error').style.display = 'none';
+}
+
+function doLogin() {
+  const val = document.getElementById('login-input').value;
+  if (val === PASSWORD) {
+    document.getElementById('login-view').style.display = 'none';
+    document.getElementById('admin-view').style.display = 'block';
+    loadAdmin();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+function logout() {
+  document.getElementById('admin-view').style.display = 'none';
+  document.getElementById('public-view').style.display = 'block';
+  renderPublic();
+}
+
+function backToPublic() {
+  document.getElementById('login-view').style.display = 'none';
+  document.getElementById('public-view').style.display = 'block';
+}
+
+// ===== ADMIN =====
+function switchTab(tab, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.atab').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  btn.classList.add('active');
+}
+
+function loadAdmin() {
+  renderAdminDishes();
+  renderAdminCats();
+  fillCatSelects();
+  document.getElementById('cfg-name').value = config.name;
+  document.getElementById('cfg-slogan').value = config.slogan;
+  document.getElementById('cfg-phone').value = config.phone || '';
+  if (config.cover) {
+    const p = document.getElementById('cover-preview');
+    p.src = config.cover; p.style.display = 'block';
+  }
+}
+
+function renderAdminDishes() {
+  const list = document.getElementById('admin-dish-list');
+  if (!dishes.length) {
+    list.innerHTML = '<div class="empty-state">No hay platos todavía. ¡Agregá el primero!</div>';
+    return;
+  }
+  list.innerHTML = dishes.map((d, i) => `
+    <div class="dish-row">
+      ${d.image ? `<img src="${d.image}" alt="${d.name}">` : `<div style="width:60px;height:60px;background:#3e2009;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0">🍽</div>`}
+      <div class="dish-meta">
+        <h4>${d.name}</h4>
+        <span>${d.category || 'Sin categoría'}</span>
+      </div>
+      <div class="dish-price">${d.price || ''}</div>
+      <div class="dish-actions">
+        <button class="btn-edit" onclick="openEdit(${i})">Editar</button>
+        <button class="btn-danger" onclick="deleteDish(${i})">Eliminar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAdminCats() {
+  const list = document.getElementById('cat-list');
+  list.innerHTML = categories.map((c, i) => `
+    <span style="background:rgba(201,151,58,0.15);border:1px solid rgba(201,151,58,0.4);border-radius:20px;padding:5px 14px;color:var(--gold);font-size:0.85rem;display:flex;align-items:center;gap:8px">
+      ${c}
+      <button onclick="deleteCategory(${i})" style="background:none;border:none;color:#e07070;cursor:pointer;font-size:1rem;line-height:1">×</button>
+    </span>
+  `).join('');
+}
+
+function fillCatSelects() {
+  const opts = `<option value="">Sin categoría</option>` + categories.map(c => `<option value="${c}">${c}</option>`).join('');
+  document.getElementById('new-cat').innerHTML = opts;
+  document.getElementById('edit-cat').innerHTML = opts;
+}
+
+function addCategory() {
+  const v = document.getElementById('new-cat-input').value.trim();
+  if (!v) return;
+  if (categories.includes(v)) return;
+  categories.push(v);
+  setData('categories', categories);
+  document.getElementById('new-cat-input').value = '';
+  renderAdminCats();
+  fillCatSelects();
+}
+
+function deleteCategory(i) {
+  if (!confirm('¿Eliminar la categoría "' + categories[i] + '"?')) return;
+  categories.splice(i, 1);
+  setData('categories', categories);
+  renderAdminCats();
+  fillCatSelects();
+}
+
+// Image
+function previewImage(inputId, previewId) {
+  const file = document.getElementById(inputId).files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function getBase64(inputId) {
+  return new Promise(resolve => {
+    const file = document.getElementById(inputId).files[0];
+    if (!file) { resolve(null); return; }
+    const reader = new FileReader();
+    reader.onload = e => resolve(e.target.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+// Add dish
+async function addDish() {
+  const name = document.getElementById('new-name').value.trim();
+  if (!name) { alert('El nombre es obligatorio.'); return; }
+  const image = await getBase64('new-img-file');
+  const dish = {
+    id: Date.now(),
+    name,
+    category: document.getElementById('new-cat').value,
+    price: document.getElementById('new-price').value.trim(),
+    description: document.getElementById('new-desc').value.trim(),
+    image: image || ''
+  };
+  dishes.push(dish);
+  setData('dishes', dishes);
+  // Reset
+  document.getElementById('new-name').value = '';
+  document.getElementById('new-price').value = '';
+  document.getElementById('new-desc').value = '';
+  document.getElementById('new-img-file').value = '';
+  document.getElementById('new-img-preview').style.display = 'none';
+  const s = document.getElementById('add-success');
+  s.style.display = 'block';
+  setTimeout(() => s.style.display = 'none', 3000);
+  renderAdminDishes();
+}
+
+function deleteDish(i) {
+  if (!confirm('¿Eliminar "' + dishes[i].name + '"?')) return;
+  dishes.splice(i, 1);
+  setData('dishes', dishes);
+  renderAdminDishes();
+}
+
+// Edit modal
+function openEdit(i) {
+  const d = dishes[i];
+  document.getElementById('edit-id').value = i;
+  document.getElementById('edit-name').value = d.name;
+  document.getElementById('edit-price').value = d.price || '';
+  document.getElementById('edit-desc').value = d.description || '';
+  fillCatSelects();
+  document.getElementById('edit-cat').value = d.category || '';
+  document.getElementById('edit-img-file').value = '';
+  document.getElementById('edit-img-preview').style.display = 'none';
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('edit-modal').classList.remove('open'); }
+
+async function saveEdit() {
+  const i = parseInt(document.getElementById('edit-id').value);
+  const name = document.getElementById('edit-name').value.trim();
+  if (!name) { alert('El nombre es obligatorio.'); return; }
+  const newImg = await getBase64('edit-img-file');
+  dishes[i].name = name;
+  dishes[i].category = document.getElementById('edit-cat').value;
+  dishes[i].price = document.getElementById('edit-price').value.trim();
+  dishes[i].description = document.getElementById('edit-desc').value.trim();
+  if (newImg) dishes[i].image = newImg;
+  setData('dishes', dishes);
+  closeModal();
+  renderAdminDishes();
+}
+
+// Config
+function saveConfig() {
+  config.name = document.getElementById('cfg-name').value.trim() || 'Mi Restaurante';
+  config.slogan = document.getElementById('cfg-slogan').value.trim();
+  config.phone = document.getElementById('cfg-phone').value.trim();
+  setData('config', config);
+  const s = document.getElementById('cfg-success');
+  s.style.display = 'block';
+  setTimeout(() => s.style.display = 'none', 3000);
+}
+
+function saveCover() {
+  const file = document.getElementById('cover-file').files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    config.cover = e.target.result;
+    setData('config', config);
+    const p = document.getElementById('cover-preview');
+    p.src = config.cover; p.style.display = 'block';
+    const s = document.getElementById('cover-success');
+    s.style.display = 'block';
+    setTimeout(() => s.style.display = 'none', 3000);
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeCover() {
+  config.cover = '';
+  setData('config', config);
+  document.getElementById('cover-file').value = '';
+  document.getElementById('cover-preview').style.display = 'none';
+  const s = document.getElementById('cover-success');
+  s.textContent = '✓ Portada eliminada.';
+  s.style.display = 'block';
+  setTimeout(() => { s.style.display = 'none'; s.textContent = '✓ Portada actualizada.'; }, 2500);
+}
+
+// Close modal on overlay click
+document.getElementById('edit-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Init
+renderPublic();
+</script>
+</body>
+</html>
